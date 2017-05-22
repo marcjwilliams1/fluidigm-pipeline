@@ -24,11 +24,11 @@ createInitialDataset <- function(x, sampleName) {
 }
 
 
-#file where all coverage statistics are found
-filedir<-"/data/BCI-EvoCa/marc/normalcrypts/ibrahim/march2017/coverage"
-plotdir<-"/data/BCI-EvoCa/marc/normalcrypts/ibrahim/march2017/coverage/plots"
+args = commandArgs(trailingOnly=TRUE)
 
-
+results_dir <- args[1]
+filedir <- paste(results_dir, "/coverage", sep = "")
+plotdir<-paste(filedir, "/plots", sep = "")
 
 props=list.files(filedir,pattern="proportions")
 

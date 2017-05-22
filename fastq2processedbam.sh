@@ -19,21 +19,14 @@ module load gcc/6.3.0
 ##############################################################################
 
 #files list should have 5 columns, read1name, read2name, patient, samplename & tissuetype (T or N).
-filelist=fastqfiles.txt
+filelist=$1
 
 ##############################################################################
 #set up directories and filenames
-msg="Set up directories and filenames"; echo "-- $msg $longLine"; >&2 echo "-- $msg $longLine"
-regionsfile=/data/BCI-EvoCa/marc/refs/fluidigm/targetregions.bed
-results_dir=/data/BCI-EvoCa/marc/normalcrypts/ibrahim/march2017
+msg="Extract names from files"; echo "-- $msg $longLine"; >&2 echo "-- $msg $longLine"
+regionsfile=$3
+results_dir=$2
 
-mkdir -p ${results_dir}/processingbams
-mkdir -p ${results_dir}/finalbams
-mkdir -p ${results_dir}/coverage/plots
-mkdir -p ${results_dir}/fastQC
-mkdir -p ${results_dir}/bamQC
-mkdir -p ${results_dir}/insertmetrics/plots
-mkdir -p ${results_dir}/insertmetrics/files
 
 read1=$(awk -v var="$SGE_TASK_ID" 'NR ==var { OFS="\t";print $1}' $filelist)
 read2=$(awk -v var="$SGE_TASK_ID" 'NR ==var { OFS="\t";print $2}' $filelist)
@@ -82,14 +75,6 @@ msg="run fastqc"; echo "-- $msg $longLine"; >&2 echo "-- $msg $longLine"
 #check with bamqc
  msg="run bamqc"; echo "-- $msg $longLine"; >&2 echo "-- $msg $longLine"
  /data/home/mpx155/bin/bamQC/BamQC/bin/bamqc -o ${results_dir}/bamQC/ ${results_dir}/finalbams/${patient}.${samplename}.bam
-
-##############################################################################
-
-#get insert size metrics
-java -Xmx4G -jar /data/home/mpx155/bin/picard.jar CollectInsertSizeMetrics \
-INPUT=${results_dir}/finalbams/${patient}.${samplename}.bam \
-OUTPUT=${results_dir}/insertmetrics/files/${patient}.${samplename}.txt \
-H=${results_dir}/insertmetrics/plots/${patient}.${samplename}.insert_size_histogram.pdf
 
 ##############################################################################
 

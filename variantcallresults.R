@@ -1,3 +1,5 @@
+#!/share/apps/R/3.3.1/bin/Rscript
+
 library(tidyverse)
 library(stringr)
 
@@ -80,10 +82,10 @@ dfall <- dfall %>% dplyr::rename(mutationfunction = function.) %>%
 #  write_csv("filteredvariantcalls/filteredmutations.csv")
 
 dfall %>%
-  write_csv("filteredvariantcalls/march2017_fluidigm_allmutations.csv")
+  write_csv("finalresults/may2017_fluidigm_allmutations.csv")
 
 dfall %>% filter(mutationfunction != "synonymous SNV") %>% 
-  write_csv("filteredvariantcalls/march2017_fluidigm_allmutations_filt.csv")
+  write_csv("finalresults/may2017_fluidigm_allmutations_filt.csv")
 
   
   

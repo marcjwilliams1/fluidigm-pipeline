@@ -12,8 +12,8 @@ bamfiledir <- paste(root, "/finalbams", sep = "")
 variantcalldirectory <- paste(root, "/variantcalls/deepsnv/raw/", sep = "")
 
 samples <- list.files(bamfiledir, pattern=".bam$")
-controls <- samples[str_detect(samples, "BLOOD")]
-samples <- samples[!str_detect(samples, "BLOOD")]
+controls <- samples[str_detect(samples, "NORMAL")]
+samples <- samples[!str_detect(samples, "NORMAL")]
 
 dfregions<-read.table(targetregions)
 names(dfregions)<-c("chr","start","stop")
@@ -23,12 +23,6 @@ setwd(bamfiledir)
 for (sample in samples) {
 
 	patient <- strsplit(sample, "[.]")[[1]][1]
-
-	if (patient == "363N"){
-		control <- "363N.BLOOD-1.bam"
-	} else {
-		control <- str_subset(controls, patient)
-	}
 
 	samplebam <- paste(bamfiledir, "/", sample, sep = "")
 	controlbam <- paste(bamfiledir, "/", control, sep = "")
