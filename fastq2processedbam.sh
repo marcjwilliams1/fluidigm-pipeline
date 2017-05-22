@@ -1,11 +1,8 @@
 #!/bin/sh
 #$ -cwd
 #$ -V
-#$ -l h_rt=1:0:0
-#$ -t 1-125
 #$ -e errorfiles
 #$ -o outfiles
-#$ -l h_vmem=8G
 
 longLine="--------------------"
 
@@ -84,7 +81,7 @@ java -jar -Xmx2G $GATK -T DepthOfCoverage \
 -R /data/BCI-EvoCa/marc/refs/hg19/ucsc.hg19.fasta  \
 -L ${regionsfile} \
 -I ${results_dir}/finalbams/${patient}.${samplename}.bam \
--geneList:REFSEQ /data/BCI-EvoCa/marc/refs/fluidigm/fluidigmrefseq.txt \
+-geneList:REFSEQ /data/BCI-EvoCa/marc/refs/fluidigm/barrettsfluidigmrefseq.txt \
 --start 1 \
 --stop 100000 \
 --nBins 500 \

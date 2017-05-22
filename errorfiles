@@ -1,0 +1,1242 @@
+-- Extract names from files 
+ERROR: Option 'BAIT_INTERVALS' must be specified at least 1 times.
+
+USAGE: CollectHsMetrics [options]
+
+Documentation: http://broadinstitute.github.io/picard/command-line-overview.html#CollectHsMetrics
+
+Collects hybrid-selection (HS) metrics for a SAM or BAM file.  This tool takes a SAM/BAM file input and collects metrics that are specific for sequence datasets generated through hybrid-selection. Hybrid-selection (HS) is the most commonly used technique to capture exon-specific sequences for targeted sequencing experiments such as exome sequencing; for more information, please see the corresponding GATK Dictionary entry (http://www.broadinstitute.org/gatk/guide/article?id=6331). 
+ 
+This tool requires an aligned SAM or BAM file as well as bait and target interval files in Picard interval_list format. You should use the bait and interval files that correspond to the capture kit that was used to generate the capture libraries for sequencing, which can generally be obtained from the kit manufacturer. If the baits and target intervals are provided in BED format, you can convert them to the Picard interval_list format using Picard's BedToInterval (http://broadinstitute.github.io/picard/command-line-overview.html#BedToIntervalList) tool. 
+
+If a reference sequence is provided, this program will calculate both AT_DROPOUT and GC_DROPOUT metrics. Dropout metrics are an attempt to measure the reduced representation of reads, in regions that deviate from 50% G/C content. This reduction in the number of aligned reads is due to the increased numbers of errors associated with sequencing regions with excessive or deficient numbers of G/C bases, ultimately leading to poor mapping efficiencies and lowcoverage in the affected regions. 
+
+If you are interested in getting G/C content and mean sequence depth information for every target interval, use the PER_TARGET_COVERAGE option. 
+
+Note: Metrics labeled as percentages are actually expressed as fractions!
+  
+Usage Example:
+
+java -jar picard.jar CollectHsMetrics \
+      I=input.bam \
+      O=hs_metrics.txt \
+      R=reference_sequence.fasta \
+      BAIT_INTERVALS=bait.interval_list \
+      TARGET_INTERVALS=target.interval_list
+ 
+Please see CollectHsMetrics (http://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics) for detailed descriptions of the output metrics produced by this tool.
+
+
+Version: 2.6.0-SNAPSHOT
+
+
+Options:
+
+--help
+-h                            Displays options specific to this tool.
+
+--stdhelp
+-H                            Displays options specific to this tool AND options common to all Picard command line 
+                              tools.
+
+--version                     Displays program version.
+
+BAIT_INTERVALS=File
+BI=File                       An interval list file that contains the locations of the baits used.  Default value: 
+                              null. This option must be specified at least 1 times. 
+
+BAIT_SET_NAME=String
+N=String                      Bait set name. If not provided it is inferred from the filename of the bait intervals.  
+                              Default value: null. 
+
+MINIMUM_MAPPING_QUALITY=Integer
+MQ=Integer                    Minimum mapping quality for a read to contribute coverage.  Default value: 20. This 
+                              option can be set to 'null' to clear the default value. 
+
+MINIMUM_BASE_QUALITY=Integer
+Q=Integer                     Minimum base quality for a base to contribute coverage.  Default value: 20. This option 
+                              can be set to 'null' to clear the default value. 
+
+CLIP_OVERLAPPING_READS=BooleanTrue if we are to clip overlapping reads, false otherwise.  Default value: true. This 
+                              option can be set to 'null' to clear the default value. Possible values: {true, false} 
+
+TARGET_INTERVALS=File
+TI=File                       An interval list file that contains the locations of the targets.  Default value: null. 
+                              This option must be specified at least 1 times. 
+
+INPUT=File
+I=File                        An aligned SAM or BAM file.  Required. 
+
+OUTPUT=File
+O=File                        The output file to write the metrics to.  Required. 
+
+METRIC_ACCUMULATION_LEVEL=MetricAccumulationLevel
+LEVEL=MetricAccumulationLevel The level(s) at which to accumulate metrics.  Default value: [ALL_READS]. This option can 
+                              be set to 'null' to clear the default value. Possible values: {ALL_READS, SAMPLE, 
+                              LIBRARY, READ_GROUP} This option may be specified 0 or more times. This option can be set 
+                              to 'null' to clear the default list. 
+
+PER_TARGET_COVERAGE=File      An optional file to output per target coverage information to.  Default value: null. 
+
+PER_BASE_COVERAGE=File        An optional file to output per base coverage information to. The per-base file contains 
+                              one line per target base and can grow very large. It is not recommended for use with 
+                              large target sets.  Default value: null. 
+
+NEAR_DISTANCE=Integer         The maximum distance between a read and the nearest probe/bait/amplicon for the read to 
+                              be considered 'near probe' and included in percent selected.  Default value: 250. This 
+                              option can be set to 'null' to clear the default value. 
+
+COVERAGE_CAP=Integer
+COVMAX=Integer                Parameter to set a max coverage limit for Theoretical Sensitivity calculations. Default 
+                              is 200.  Default value: 200. This option can be set to 'null' to clear the default value. 
+
+SAMPLE_SIZE=Integer           Sample Size used for Theoretical Het Sensitivity sampling. Default is 10000.  Default 
+                              value: 10000. This option can be set to 'null' to clear the default value. 
+
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/HS/10.UH15_12165D.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/HS/10.UH15_12165D.txt: No such file or directory
+-- Run picard insertsize metrics 
+[Mon May 22 14:55:49 BST 2017] picard.analysis.CollectInsertSizeMetrics HISTOGRAM_FILE=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/10.UH15_12165D.insert_size_histogram.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/10.UH15_12165D.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/10.UH15_12165D.txt    DEVIATIONS=10.0 MINIMUM_PCT=0.05 METRIC_ACCUMULATION_LEVEL=[ALL_READS] INCLUDE_DUPLICATES=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:55:49 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:55:50 BST 2017] picard.analysis.CollectInsertSizeMetrics done. Elapsed time: 0.03 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/10.UH15_12165D.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/10.UH15_12165D.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/10.UH15_12165D.txt: No such file or directory
+-- Run picard CollectAlignmentSummaryMetrics 
+[Mon May 22 14:55:52 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics REFERENCE_SEQUENCE=ADAPTER_SEQUENCE=[CTGTCTCTTATA,TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG,AGATCGGAAGAGC,ACGCTCTTCCGATCT] INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/10.UH15_12165D.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/alignmentmetrics/10.UH15_12165D.txt    MAX_INSERT_SIZE=100000 EXPECTED_PAIR_ORIENTATIONS=[FR] ADAPTER_SEQUENCE=[AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG] METRIC_ACCUMULATION_LEVEL=[ALL_READS] IS_BISULFITE_SEQUENCED=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:55:52 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:55:52 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/10.UH15_12165D.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/alignmentmetrics/10.UH15_12165D.txt: No such file or directory
+-- Run picard QualityScoreDistribution 
+[Mon May 22 14:55:53 BST 2017] picard.analysis.QualityScoreDistribution CHART_OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/10.UH15_12165D.qual_score_dist.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/10.UH15_12165D.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/10.UH15_12165D.qual_score_dist.txt    ALIGNED_READS_ONLY=false PF_READS_ONLY=false INCLUDE_NO_CALLS=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:55:53 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:55:53 BST 2017] picard.analysis.QualityScoreDistribution done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/10.UH15_12165D.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+/opt/sge/default/spool/dn34/job_scripts/4004154: line 61: /data/BCI-EvoCa/marc/manu/may2017//info/qsdistribution/10.UH15_12165D.qshistogram.txt: No such file or directory
+-- Extract names from files 
+ERROR: Option 'BAIT_INTERVALS' must be specified at least 1 times.
+
+USAGE: CollectHsMetrics [options]
+
+Documentation: http://broadinstitute.github.io/picard/command-line-overview.html#CollectHsMetrics
+
+Collects hybrid-selection (HS) metrics for a SAM or BAM file.  This tool takes a SAM/BAM file input and collects metrics that are specific for sequence datasets generated through hybrid-selection. Hybrid-selection (HS) is the most commonly used technique to capture exon-specific sequences for targeted sequencing experiments such as exome sequencing; for more information, please see the corresponding GATK Dictionary entry (http://www.broadinstitute.org/gatk/guide/article?id=6331). 
+ 
+This tool requires an aligned SAM or BAM file as well as bait and target interval files in Picard interval_list format. You should use the bait and interval files that correspond to the capture kit that was used to generate the capture libraries for sequencing, which can generally be obtained from the kit manufacturer. If the baits and target intervals are provided in BED format, you can convert them to the Picard interval_list format using Picard's BedToInterval (http://broadinstitute.github.io/picard/command-line-overview.html#BedToIntervalList) tool. 
+
+If a reference sequence is provided, this program will calculate both AT_DROPOUT and GC_DROPOUT metrics. Dropout metrics are an attempt to measure the reduced representation of reads, in regions that deviate from 50% G/C content. This reduction in the number of aligned reads is due to the increased numbers of errors associated with sequencing regions with excessive or deficient numbers of G/C bases, ultimately leading to poor mapping efficiencies and lowcoverage in the affected regions. 
+
+If you are interested in getting G/C content and mean sequence depth information for every target interval, use the PER_TARGET_COVERAGE option. 
+
+Note: Metrics labeled as percentages are actually expressed as fractions!
+  
+Usage Example:
+
+java -jar picard.jar CollectHsMetrics \
+      I=input.bam \
+      O=hs_metrics.txt \
+      R=reference_sequence.fasta \
+      BAIT_INTERVALS=bait.interval_list \
+      TARGET_INTERVALS=target.interval_list
+ 
+Please see CollectHsMetrics (http://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics) for detailed descriptions of the output metrics produced by this tool.
+
+
+Version: 2.6.0-SNAPSHOT
+
+
+Options:
+
+--help
+-h                            Displays options specific to this tool.
+
+--stdhelp
+-H                            Displays options specific to this tool AND options common to all Picard command line 
+                              tools.
+
+--version                     Displays program version.
+
+BAIT_INTERVALS=File
+BI=File                       An interval list file that contains the locations of the baits used.  Default value: 
+                              null. This option must be specified at least 1 times. 
+
+BAIT_SET_NAME=String
+N=String                      Bait set name. If not provided it is inferred from the filename of the bait intervals.  
+                              Default value: null. 
+
+MINIMUM_MAPPING_QUALITY=Integer
+MQ=Integer                    Minimum mapping quality for a read to contribute coverage.  Default value: 20. This 
+                              option can be set to 'null' to clear the default value. 
+
+MINIMUM_BASE_QUALITY=Integer
+Q=Integer                     Minimum base quality for a base to contribute coverage.  Default value: 20. This option 
+                              can be set to 'null' to clear the default value. 
+
+CLIP_OVERLAPPING_READS=BooleanTrue if we are to clip overlapping reads, false otherwise.  Default value: true. This 
+                              option can be set to 'null' to clear the default value. Possible values: {true, false} 
+
+TARGET_INTERVALS=File
+TI=File                       An interval list file that contains the locations of the targets.  Default value: null. 
+                              This option must be specified at least 1 times. 
+
+INPUT=File
+I=File                        An aligned SAM or BAM file.  Required. 
+
+OUTPUT=File
+O=File                        The output file to write the metrics to.  Required. 
+
+METRIC_ACCUMULATION_LEVEL=MetricAccumulationLevel
+LEVEL=MetricAccumulationLevel The level(s) at which to accumulate metrics.  Default value: [ALL_READS]. This option can 
+                              be set to 'null' to clear the default value. Possible values: {ALL_READS, SAMPLE, 
+                              LIBRARY, READ_GROUP} This option may be specified 0 or more times. This option can be set 
+                              to 'null' to clear the default list. 
+
+PER_TARGET_COVERAGE=File      An optional file to output per target coverage information to.  Default value: null. 
+
+PER_BASE_COVERAGE=File        An optional file to output per base coverage information to. The per-base file contains 
+                              one line per target base and can grow very large. It is not recommended for use with 
+                              large target sets.  Default value: null. 
+
+NEAR_DISTANCE=Integer         The maximum distance between a read and the nearest probe/bait/amplicon for the read to 
+                              be considered 'near probe' and included in percent selected.  Default value: 250. This 
+                              option can be set to 'null' to clear the default value. 
+
+COVERAGE_CAP=Integer
+COVMAX=Integer                Parameter to set a max coverage limit for Theoretical Sensitivity calculations. Default 
+                              is 200.  Default value: 200. This option can be set to 'null' to clear the default value. 
+
+SAMPLE_SIZE=Integer           Sample Size used for Theoretical Het Sensitivity sampling. Default is 10000.  Default 
+                              value: 10000. This option can be set to 'null' to clear the default value. 
+
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/HS/1.UH11_10190.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/HS/1.UH11_10190.txt: No such file or directory
+-- Run picard insertsize metrics 
+[Mon May 22 14:55:57 BST 2017] picard.analysis.CollectInsertSizeMetrics HISTOGRAM_FILE=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/1.UH11_10190.insert_size_histogram.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/1.UH11_10190.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/1.UH11_10190.txt    DEVIATIONS=10.0 MINIMUM_PCT=0.05 METRIC_ACCUMULATION_LEVEL=[ALL_READS] INCLUDE_DUPLICATES=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:55:57 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:55:57 BST 2017] picard.analysis.CollectInsertSizeMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/1.UH11_10190.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/1.UH11_10190.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/1.UH11_10190.txt: No such file or directory
+-- Run picard CollectAlignmentSummaryMetrics 
+[Mon May 22 14:55:59 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics REFERENCE_SEQUENCE=ADAPTER_SEQUENCE=[CTGTCTCTTATA,TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG,AGATCGGAAGAGC,ACGCTCTTCCGATCT] INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/1.UH11_10190.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/alignmentmetrics/1.UH11_10190.txt    MAX_INSERT_SIZE=100000 EXPECTED_PAIR_ORIENTATIONS=[FR] ADAPTER_SEQUENCE=[AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG] METRIC_ACCUMULATION_LEVEL=[ALL_READS] IS_BISULFITE_SEQUENCED=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:55:59 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:55:59 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/1.UH11_10190.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/alignmentmetrics/1.UH11_10190.txt: No such file or directory
+-- Run picard QualityScoreDistribution 
+[Mon May 22 14:56:00 BST 2017] picard.analysis.QualityScoreDistribution CHART_OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/1.UH11_10190.qual_score_dist.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/1.UH11_10190.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/1.UH11_10190.qual_score_dist.txt    ALIGNED_READS_ONLY=false PF_READS_ONLY=false INCLUDE_NO_CALLS=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:00 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:00 BST 2017] picard.analysis.QualityScoreDistribution done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/1.UH11_10190.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+/opt/sge/default/spool/dn34/job_scripts/4004154: line 61: /data/BCI-EvoCa/marc/manu/may2017//info/qsdistribution/1.UH11_10190.qshistogram.txt: No such file or directory
+-- Extract names from files 
+ERROR: Option 'BAIT_INTERVALS' must be specified at least 1 times.
+
+USAGE: CollectHsMetrics [options]
+
+Documentation: http://broadinstitute.github.io/picard/command-line-overview.html#CollectHsMetrics
+
+Collects hybrid-selection (HS) metrics for a SAM or BAM file.  This tool takes a SAM/BAM file input and collects metrics that are specific for sequence datasets generated through hybrid-selection. Hybrid-selection (HS) is the most commonly used technique to capture exon-specific sequences for targeted sequencing experiments such as exome sequencing; for more information, please see the corresponding GATK Dictionary entry (http://www.broadinstitute.org/gatk/guide/article?id=6331). 
+ 
+This tool requires an aligned SAM or BAM file as well as bait and target interval files in Picard interval_list format. You should use the bait and interval files that correspond to the capture kit that was used to generate the capture libraries for sequencing, which can generally be obtained from the kit manufacturer. If the baits and target intervals are provided in BED format, you can convert them to the Picard interval_list format using Picard's BedToInterval (http://broadinstitute.github.io/picard/command-line-overview.html#BedToIntervalList) tool. 
+
+If a reference sequence is provided, this program will calculate both AT_DROPOUT and GC_DROPOUT metrics. Dropout metrics are an attempt to measure the reduced representation of reads, in regions that deviate from 50% G/C content. This reduction in the number of aligned reads is due to the increased numbers of errors associated with sequencing regions with excessive or deficient numbers of G/C bases, ultimately leading to poor mapping efficiencies and lowcoverage in the affected regions. 
+
+If you are interested in getting G/C content and mean sequence depth information for every target interval, use the PER_TARGET_COVERAGE option. 
+
+Note: Metrics labeled as percentages are actually expressed as fractions!
+  
+Usage Example:
+
+java -jar picard.jar CollectHsMetrics \
+      I=input.bam \
+      O=hs_metrics.txt \
+      R=reference_sequence.fasta \
+      BAIT_INTERVALS=bait.interval_list \
+      TARGET_INTERVALS=target.interval_list
+ 
+Please see CollectHsMetrics (http://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics) for detailed descriptions of the output metrics produced by this tool.
+
+
+Version: 2.6.0-SNAPSHOT
+
+
+Options:
+
+--help
+-h                            Displays options specific to this tool.
+
+--stdhelp
+-H                            Displays options specific to this tool AND options common to all Picard command line 
+                              tools.
+
+--version                     Displays program version.
+
+BAIT_INTERVALS=File
+BI=File                       An interval list file that contains the locations of the baits used.  Default value: 
+                              null. This option must be specified at least 1 times. 
+
+BAIT_SET_NAME=String
+N=String                      Bait set name. If not provided it is inferred from the filename of the bait intervals.  
+                              Default value: null. 
+
+MINIMUM_MAPPING_QUALITY=Integer
+MQ=Integer                    Minimum mapping quality for a read to contribute coverage.  Default value: 20. This 
+                              option can be set to 'null' to clear the default value. 
+
+MINIMUM_BASE_QUALITY=Integer
+Q=Integer                     Minimum base quality for a base to contribute coverage.  Default value: 20. This option 
+                              can be set to 'null' to clear the default value. 
+
+CLIP_OVERLAPPING_READS=BooleanTrue if we are to clip overlapping reads, false otherwise.  Default value: true. This 
+                              option can be set to 'null' to clear the default value. Possible values: {true, false} 
+
+TARGET_INTERVALS=File
+TI=File                       An interval list file that contains the locations of the targets.  Default value: null. 
+                              This option must be specified at least 1 times. 
+
+INPUT=File
+I=File                        An aligned SAM or BAM file.  Required. 
+
+OUTPUT=File
+O=File                        The output file to write the metrics to.  Required. 
+
+METRIC_ACCUMULATION_LEVEL=MetricAccumulationLevel
+LEVEL=MetricAccumulationLevel The level(s) at which to accumulate metrics.  Default value: [ALL_READS]. This option can 
+                              be set to 'null' to clear the default value. Possible values: {ALL_READS, SAMPLE, 
+                              LIBRARY, READ_GROUP} This option may be specified 0 or more times. This option can be set 
+                              to 'null' to clear the default list. 
+
+PER_TARGET_COVERAGE=File      An optional file to output per target coverage information to.  Default value: null. 
+
+PER_BASE_COVERAGE=File        An optional file to output per base coverage information to. The per-base file contains 
+                              one line per target base and can grow very large. It is not recommended for use with 
+                              large target sets.  Default value: null. 
+
+NEAR_DISTANCE=Integer         The maximum distance between a read and the nearest probe/bait/amplicon for the read to 
+                              be considered 'near probe' and included in percent selected.  Default value: 250. This 
+                              option can be set to 'null' to clear the default value. 
+
+COVERAGE_CAP=Integer
+COVMAX=Integer                Parameter to set a max coverage limit for Theoretical Sensitivity calculations. Default 
+                              is 200.  Default value: 200. This option can be set to 'null' to clear the default value. 
+
+SAMPLE_SIZE=Integer           Sample Size used for Theoretical Het Sensitivity sampling. Default is 10000.  Default 
+                              value: 10000. This option can be set to 'null' to clear the default value. 
+
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/HS/2.UH14_14119C.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/HS/2.UH14_14119C.txt: No such file or directory
+-- Run picard insertsize metrics 
+[Mon May 22 14:56:12 BST 2017] picard.analysis.CollectInsertSizeMetrics HISTOGRAM_FILE=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/2.UH14_14119C.insert_size_histogram.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/2.UH14_14119C.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/2.UH14_14119C.txt    DEVIATIONS=10.0 MINIMUM_PCT=0.05 METRIC_ACCUMULATION_LEVEL=[ALL_READS] INCLUDE_DUPLICATES=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:12 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:12 BST 2017] picard.analysis.CollectInsertSizeMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/2.UH14_14119C.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/2.UH14_14119C.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/2.UH14_14119C.txt: No such file or directory
+-- Run picard CollectAlignmentSummaryMetrics 
+[Mon May 22 14:56:14 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics REFERENCE_SEQUENCE=ADAPTER_SEQUENCE=[CTGTCTCTTATA,TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG,AGATCGGAAGAGC,ACGCTCTTCCGATCT] INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/2.UH14_14119C.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/alignmentmetrics/2.UH14_14119C.txt    MAX_INSERT_SIZE=100000 EXPECTED_PAIR_ORIENTATIONS=[FR] ADAPTER_SEQUENCE=[AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG] METRIC_ACCUMULATION_LEVEL=[ALL_READS] IS_BISULFITE_SEQUENCED=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:14 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:14 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/2.UH14_14119C.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/alignmentmetrics/2.UH14_14119C.txt: No such file or directory
+-- Run picard QualityScoreDistribution 
+[Mon May 22 14:56:15 BST 2017] picard.analysis.QualityScoreDistribution CHART_OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/2.UH14_14119C.qual_score_dist.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/2.UH14_14119C.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/2.UH14_14119C.qual_score_dist.txt    ALIGNED_READS_ONLY=false PF_READS_ONLY=false INCLUDE_NO_CALLS=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:15 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:15 BST 2017] picard.analysis.QualityScoreDistribution done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/2.UH14_14119C.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+/opt/sge/default/spool/dn34/job_scripts/4004154: line 61: /data/BCI-EvoCa/marc/manu/may2017//info/qsdistribution/2.UH14_14119C.qshistogram.txt: No such file or directory
+-- Extract names from files 
+ERROR: Option 'BAIT_INTERVALS' must be specified at least 1 times.
+
+USAGE: CollectHsMetrics [options]
+
+Documentation: http://broadinstitute.github.io/picard/command-line-overview.html#CollectHsMetrics
+
+Collects hybrid-selection (HS) metrics for a SAM or BAM file.  This tool takes a SAM/BAM file input and collects metrics that are specific for sequence datasets generated through hybrid-selection. Hybrid-selection (HS) is the most commonly used technique to capture exon-specific sequences for targeted sequencing experiments such as exome sequencing; for more information, please see the corresponding GATK Dictionary entry (http://www.broadinstitute.org/gatk/guide/article?id=6331). 
+ 
+This tool requires an aligned SAM or BAM file as well as bait and target interval files in Picard interval_list format. You should use the bait and interval files that correspond to the capture kit that was used to generate the capture libraries for sequencing, which can generally be obtained from the kit manufacturer. If the baits and target intervals are provided in BED format, you can convert them to the Picard interval_list format using Picard's BedToInterval (http://broadinstitute.github.io/picard/command-line-overview.html#BedToIntervalList) tool. 
+
+If a reference sequence is provided, this program will calculate both AT_DROPOUT and GC_DROPOUT metrics. Dropout metrics are an attempt to measure the reduced representation of reads, in regions that deviate from 50% G/C content. This reduction in the number of aligned reads is due to the increased numbers of errors associated with sequencing regions with excessive or deficient numbers of G/C bases, ultimately leading to poor mapping efficiencies and lowcoverage in the affected regions. 
+
+If you are interested in getting G/C content and mean sequence depth information for every target interval, use the PER_TARGET_COVERAGE option. 
+
+Note: Metrics labeled as percentages are actually expressed as fractions!
+  
+Usage Example:
+
+java -jar picard.jar CollectHsMetrics \
+      I=input.bam \
+      O=hs_metrics.txt \
+      R=reference_sequence.fasta \
+      BAIT_INTERVALS=bait.interval_list \
+      TARGET_INTERVALS=target.interval_list
+ 
+Please see CollectHsMetrics (http://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics) for detailed descriptions of the output metrics produced by this tool.
+
+
+Version: 2.6.0-SNAPSHOT
+
+
+Options:
+
+--help
+-h                            Displays options specific to this tool.
+
+--stdhelp
+-H                            Displays options specific to this tool AND options common to all Picard command line 
+                              tools.
+
+--version                     Displays program version.
+
+BAIT_INTERVALS=File
+BI=File                       An interval list file that contains the locations of the baits used.  Default value: 
+                              null. This option must be specified at least 1 times. 
+
+BAIT_SET_NAME=String
+N=String                      Bait set name. If not provided it is inferred from the filename of the bait intervals.  
+                              Default value: null. 
+
+MINIMUM_MAPPING_QUALITY=Integer
+MQ=Integer                    Minimum mapping quality for a read to contribute coverage.  Default value: 20. This 
+                              option can be set to 'null' to clear the default value. 
+
+MINIMUM_BASE_QUALITY=Integer
+Q=Integer                     Minimum base quality for a base to contribute coverage.  Default value: 20. This option 
+                              can be set to 'null' to clear the default value. 
+
+CLIP_OVERLAPPING_READS=BooleanTrue if we are to clip overlapping reads, false otherwise.  Default value: true. This 
+                              option can be set to 'null' to clear the default value. Possible values: {true, false} 
+
+TARGET_INTERVALS=File
+TI=File                       An interval list file that contains the locations of the targets.  Default value: null. 
+                              This option must be specified at least 1 times. 
+
+INPUT=File
+I=File                        An aligned SAM or BAM file.  Required. 
+
+OUTPUT=File
+O=File                        The output file to write the metrics to.  Required. 
+
+METRIC_ACCUMULATION_LEVEL=MetricAccumulationLevel
+LEVEL=MetricAccumulationLevel The level(s) at which to accumulate metrics.  Default value: [ALL_READS]. This option can 
+                              be set to 'null' to clear the default value. Possible values: {ALL_READS, SAMPLE, 
+                              LIBRARY, READ_GROUP} This option may be specified 0 or more times. This option can be set 
+                              to 'null' to clear the default list. 
+
+PER_TARGET_COVERAGE=File      An optional file to output per target coverage information to.  Default value: null. 
+
+PER_BASE_COVERAGE=File        An optional file to output per base coverage information to. The per-base file contains 
+                              one line per target base and can grow very large. It is not recommended for use with 
+                              large target sets.  Default value: null. 
+
+NEAR_DISTANCE=Integer         The maximum distance between a read and the nearest probe/bait/amplicon for the read to 
+                              be considered 'near probe' and included in percent selected.  Default value: 250. This 
+                              option can be set to 'null' to clear the default value. 
+
+COVERAGE_CAP=Integer
+COVMAX=Integer                Parameter to set a max coverage limit for Theoretical Sensitivity calculations. Default 
+                              is 200.  Default value: 200. This option can be set to 'null' to clear the default value. 
+
+SAMPLE_SIZE=Integer           Sample Size used for Theoretical Het Sensitivity sampling. Default is 10000.  Default 
+                              value: 10000. This option can be set to 'null' to clear the default value. 
+
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/HS/3.UH11_10192_B2_3R.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/HS/3.UH11_10192_B2_3R.txt: No such file or directory
+-- Run picard insertsize metrics 
+[Mon May 22 14:56:28 BST 2017] picard.analysis.CollectInsertSizeMetrics HISTOGRAM_FILE=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/3.UH11_10192_B2_3R.insert_size_histogram.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3R.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/3.UH11_10192_B2_3R.txt    DEVIATIONS=10.0 MINIMUM_PCT=0.05 METRIC_ACCUMULATION_LEVEL=[ALL_READS] INCLUDE_DUPLICATES=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:28 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:28 BST 2017] picard.analysis.CollectInsertSizeMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3R.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/3.UH11_10192_B2_3R.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/3.UH11_10192_B2_3R.txt: No such file or directory
+-- Run picard CollectAlignmentSummaryMetrics 
+[Mon May 22 14:56:29 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics REFERENCE_SEQUENCE=ADAPTER_SEQUENCE=[CTGTCTCTTATA,TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG,AGATCGGAAGAGC,ACGCTCTTCCGATCT] INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3R.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/alignmentmetrics/3.UH11_10192_B2_3R.txt    MAX_INSERT_SIZE=100000 EXPECTED_PAIR_ORIENTATIONS=[FR] ADAPTER_SEQUENCE=[AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG] METRIC_ACCUMULATION_LEVEL=[ALL_READS] IS_BISULFITE_SEQUENCED=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:29 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:29 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3R.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/alignmentmetrics/3.UH11_10192_B2_3R.txt: No such file or directory
+-- Run picard QualityScoreDistribution 
+[Mon May 22 14:56:30 BST 2017] picard.analysis.QualityScoreDistribution CHART_OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/3.UH11_10192_B2_3R.qual_score_dist.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3R.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/3.UH11_10192_B2_3R.qual_score_dist.txt    ALIGNED_READS_ONLY=false PF_READS_ONLY=false INCLUDE_NO_CALLS=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:30 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:30 BST 2017] picard.analysis.QualityScoreDistribution done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3R.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+/opt/sge/default/spool/dn34/job_scripts/4004154: line 61: /data/BCI-EvoCa/marc/manu/may2017//info/qsdistribution/3.UH11_10192_B2_3R.qshistogram.txt: No such file or directory
+-- Extract names from files 
+ERROR: Option 'BAIT_INTERVALS' must be specified at least 1 times.
+
+USAGE: CollectHsMetrics [options]
+
+Documentation: http://broadinstitute.github.io/picard/command-line-overview.html#CollectHsMetrics
+
+Collects hybrid-selection (HS) metrics for a SAM or BAM file.  This tool takes a SAM/BAM file input and collects metrics that are specific for sequence datasets generated through hybrid-selection. Hybrid-selection (HS) is the most commonly used technique to capture exon-specific sequences for targeted sequencing experiments such as exome sequencing; for more information, please see the corresponding GATK Dictionary entry (http://www.broadinstitute.org/gatk/guide/article?id=6331). 
+ 
+This tool requires an aligned SAM or BAM file as well as bait and target interval files in Picard interval_list format. You should use the bait and interval files that correspond to the capture kit that was used to generate the capture libraries for sequencing, which can generally be obtained from the kit manufacturer. If the baits and target intervals are provided in BED format, you can convert them to the Picard interval_list format using Picard's BedToInterval (http://broadinstitute.github.io/picard/command-line-overview.html#BedToIntervalList) tool. 
+
+If a reference sequence is provided, this program will calculate both AT_DROPOUT and GC_DROPOUT metrics. Dropout metrics are an attempt to measure the reduced representation of reads, in regions that deviate from 50% G/C content. This reduction in the number of aligned reads is due to the increased numbers of errors associated with sequencing regions with excessive or deficient numbers of G/C bases, ultimately leading to poor mapping efficiencies and lowcoverage in the affected regions. 
+
+If you are interested in getting G/C content and mean sequence depth information for every target interval, use the PER_TARGET_COVERAGE option. 
+
+Note: Metrics labeled as percentages are actually expressed as fractions!
+  
+Usage Example:
+
+java -jar picard.jar CollectHsMetrics \
+      I=input.bam \
+      O=hs_metrics.txt \
+      R=reference_sequence.fasta \
+      BAIT_INTERVALS=bait.interval_list \
+      TARGET_INTERVALS=target.interval_list
+ 
+Please see CollectHsMetrics (http://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics) for detailed descriptions of the output metrics produced by this tool.
+
+
+Version: 2.6.0-SNAPSHOT
+
+
+Options:
+
+--help
+-h                            Displays options specific to this tool.
+
+--stdhelp
+-H                            Displays options specific to this tool AND options common to all Picard command line 
+                              tools.
+
+--version                     Displays program version.
+
+BAIT_INTERVALS=File
+BI=File                       An interval list file that contains the locations of the baits used.  Default value: 
+                              null. This option must be specified at least 1 times. 
+
+BAIT_SET_NAME=String
+N=String                      Bait set name. If not provided it is inferred from the filename of the bait intervals.  
+                              Default value: null. 
+
+MINIMUM_MAPPING_QUALITY=Integer
+MQ=Integer                    Minimum mapping quality for a read to contribute coverage.  Default value: 20. This 
+                              option can be set to 'null' to clear the default value. 
+
+MINIMUM_BASE_QUALITY=Integer
+Q=Integer                     Minimum base quality for a base to contribute coverage.  Default value: 20. This option 
+                              can be set to 'null' to clear the default value. 
+
+CLIP_OVERLAPPING_READS=BooleanTrue if we are to clip overlapping reads, false otherwise.  Default value: true. This 
+                              option can be set to 'null' to clear the default value. Possible values: {true, false} 
+
+TARGET_INTERVALS=File
+TI=File                       An interval list file that contains the locations of the targets.  Default value: null. 
+                              This option must be specified at least 1 times. 
+
+INPUT=File
+I=File                        An aligned SAM or BAM file.  Required. 
+
+OUTPUT=File
+O=File                        The output file to write the metrics to.  Required. 
+
+METRIC_ACCUMULATION_LEVEL=MetricAccumulationLevel
+LEVEL=MetricAccumulationLevel The level(s) at which to accumulate metrics.  Default value: [ALL_READS]. This option can 
+                              be set to 'null' to clear the default value. Possible values: {ALL_READS, SAMPLE, 
+                              LIBRARY, READ_GROUP} This option may be specified 0 or more times. This option can be set 
+                              to 'null' to clear the default list. 
+
+PER_TARGET_COVERAGE=File      An optional file to output per target coverage information to.  Default value: null. 
+
+PER_BASE_COVERAGE=File        An optional file to output per base coverage information to. The per-base file contains 
+                              one line per target base and can grow very large. It is not recommended for use with 
+                              large target sets.  Default value: null. 
+
+NEAR_DISTANCE=Integer         The maximum distance between a read and the nearest probe/bait/amplicon for the read to 
+                              be considered 'near probe' and included in percent selected.  Default value: 250. This 
+                              option can be set to 'null' to clear the default value. 
+
+COVERAGE_CAP=Integer
+COVMAX=Integer                Parameter to set a max coverage limit for Theoretical Sensitivity calculations. Default 
+                              is 200.  Default value: 200. This option can be set to 'null' to clear the default value. 
+
+SAMPLE_SIZE=Integer           Sample Size used for Theoretical Het Sensitivity sampling. Default is 10000.  Default 
+                              value: 10000. This option can be set to 'null' to clear the default value. 
+
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/HS/3.UH11_10192_B2_3.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/HS/3.UH11_10192_B2_3.txt: No such file or directory
+-- Run picard insertsize metrics 
+[Mon May 22 14:56:42 BST 2017] picard.analysis.CollectInsertSizeMetrics HISTOGRAM_FILE=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/3.UH11_10192_B2_3.insert_size_histogram.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/3.UH11_10192_B2_3.txt    DEVIATIONS=10.0 MINIMUM_PCT=0.05 METRIC_ACCUMULATION_LEVEL=[ALL_READS] INCLUDE_DUPLICATES=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:42 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:42 BST 2017] picard.analysis.CollectInsertSizeMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/3.UH11_10192_B2_3.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/3.UH11_10192_B2_3.txt: No such file or directory
+-- Run picard CollectAlignmentSummaryMetrics 
+[Mon May 22 14:56:44 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics REFERENCE_SEQUENCE=ADAPTER_SEQUENCE=[CTGTCTCTTATA,TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG,AGATCGGAAGAGC,ACGCTCTTCCGATCT] INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/alignmentmetrics/3.UH11_10192_B2_3.txt    MAX_INSERT_SIZE=100000 EXPECTED_PAIR_ORIENTATIONS=[FR] ADAPTER_SEQUENCE=[AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG] METRIC_ACCUMULATION_LEVEL=[ALL_READS] IS_BISULFITE_SEQUENCED=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:44 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:44 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/alignmentmetrics/3.UH11_10192_B2_3.txt: No such file or directory
+-- Run picard QualityScoreDistribution 
+[Mon May 22 14:56:45 BST 2017] picard.analysis.QualityScoreDistribution CHART_OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/3.UH11_10192_B2_3.qual_score_dist.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/3.UH11_10192_B2_3.qual_score_dist.txt    ALIGNED_READS_ONLY=false PF_READS_ONLY=false INCLUDE_NO_CALLS=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:45 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:45 BST 2017] picard.analysis.QualityScoreDistribution done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_3.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+/opt/sge/default/spool/dn34/job_scripts/4004154: line 61: /data/BCI-EvoCa/marc/manu/may2017//info/qsdistribution/3.UH11_10192_B2_3.qshistogram.txt: No such file or directory
+-- Extract names from files 
+ERROR: Option 'BAIT_INTERVALS' must be specified at least 1 times.
+
+USAGE: CollectHsMetrics [options]
+
+Documentation: http://broadinstitute.github.io/picard/command-line-overview.html#CollectHsMetrics
+
+Collects hybrid-selection (HS) metrics for a SAM or BAM file.  This tool takes a SAM/BAM file input and collects metrics that are specific for sequence datasets generated through hybrid-selection. Hybrid-selection (HS) is the most commonly used technique to capture exon-specific sequences for targeted sequencing experiments such as exome sequencing; for more information, please see the corresponding GATK Dictionary entry (http://www.broadinstitute.org/gatk/guide/article?id=6331). 
+ 
+This tool requires an aligned SAM or BAM file as well as bait and target interval files in Picard interval_list format. You should use the bait and interval files that correspond to the capture kit that was used to generate the capture libraries for sequencing, which can generally be obtained from the kit manufacturer. If the baits and target intervals are provided in BED format, you can convert them to the Picard interval_list format using Picard's BedToInterval (http://broadinstitute.github.io/picard/command-line-overview.html#BedToIntervalList) tool. 
+
+If a reference sequence is provided, this program will calculate both AT_DROPOUT and GC_DROPOUT metrics. Dropout metrics are an attempt to measure the reduced representation of reads, in regions that deviate from 50% G/C content. This reduction in the number of aligned reads is due to the increased numbers of errors associated with sequencing regions with excessive or deficient numbers of G/C bases, ultimately leading to poor mapping efficiencies and lowcoverage in the affected regions. 
+
+If you are interested in getting G/C content and mean sequence depth information for every target interval, use the PER_TARGET_COVERAGE option. 
+
+Note: Metrics labeled as percentages are actually expressed as fractions!
+  
+Usage Example:
+
+java -jar picard.jar CollectHsMetrics \
+      I=input.bam \
+      O=hs_metrics.txt \
+      R=reference_sequence.fasta \
+      BAIT_INTERVALS=bait.interval_list \
+      TARGET_INTERVALS=target.interval_list
+ 
+Please see CollectHsMetrics (http://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics) for detailed descriptions of the output metrics produced by this tool.
+
+
+Version: 2.6.0-SNAPSHOT
+
+
+Options:
+
+--help
+-h                            Displays options specific to this tool.
+
+--stdhelp
+-H                            Displays options specific to this tool AND options common to all Picard command line 
+                              tools.
+
+--version                     Displays program version.
+
+BAIT_INTERVALS=File
+BI=File                       An interval list file that contains the locations of the baits used.  Default value: 
+                              null. This option must be specified at least 1 times. 
+
+BAIT_SET_NAME=String
+N=String                      Bait set name. If not provided it is inferred from the filename of the bait intervals.  
+                              Default value: null. 
+
+MINIMUM_MAPPING_QUALITY=Integer
+MQ=Integer                    Minimum mapping quality for a read to contribute coverage.  Default value: 20. This 
+                              option can be set to 'null' to clear the default value. 
+
+MINIMUM_BASE_QUALITY=Integer
+Q=Integer                     Minimum base quality for a base to contribute coverage.  Default value: 20. This option 
+                              can be set to 'null' to clear the default value. 
+
+CLIP_OVERLAPPING_READS=BooleanTrue if we are to clip overlapping reads, false otherwise.  Default value: true. This 
+                              option can be set to 'null' to clear the default value. Possible values: {true, false} 
+
+TARGET_INTERVALS=File
+TI=File                       An interval list file that contains the locations of the targets.  Default value: null. 
+                              This option must be specified at least 1 times. 
+
+INPUT=File
+I=File                        An aligned SAM or BAM file.  Required. 
+
+OUTPUT=File
+O=File                        The output file to write the metrics to.  Required. 
+
+METRIC_ACCUMULATION_LEVEL=MetricAccumulationLevel
+LEVEL=MetricAccumulationLevel The level(s) at which to accumulate metrics.  Default value: [ALL_READS]. This option can 
+                              be set to 'null' to clear the default value. Possible values: {ALL_READS, SAMPLE, 
+                              LIBRARY, READ_GROUP} This option may be specified 0 or more times. This option can be set 
+                              to 'null' to clear the default list. 
+
+PER_TARGET_COVERAGE=File      An optional file to output per target coverage information to.  Default value: null. 
+
+PER_BASE_COVERAGE=File        An optional file to output per base coverage information to. The per-base file contains 
+                              one line per target base and can grow very large. It is not recommended for use with 
+                              large target sets.  Default value: null. 
+
+NEAR_DISTANCE=Integer         The maximum distance between a read and the nearest probe/bait/amplicon for the read to 
+                              be considered 'near probe' and included in percent selected.  Default value: 250. This 
+                              option can be set to 'null' to clear the default value. 
+
+COVERAGE_CAP=Integer
+COVMAX=Integer                Parameter to set a max coverage limit for Theoretical Sensitivity calculations. Default 
+                              is 200.  Default value: 200. This option can be set to 'null' to clear the default value. 
+
+SAMPLE_SIZE=Integer           Sample Size used for Theoretical Het Sensitivity sampling. Default is 10000.  Default 
+                              value: 10000. This option can be set to 'null' to clear the default value. 
+
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/HS/3.UH11_10192_B2_4R.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/HS/3.UH11_10192_B2_4R.txt: No such file or directory
+-- Run picard insertsize metrics 
+[Mon May 22 14:56:57 BST 2017] picard.analysis.CollectInsertSizeMetrics HISTOGRAM_FILE=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/3.UH11_10192_B2_4R.insert_size_histogram.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4R.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/3.UH11_10192_B2_4R.txt    DEVIATIONS=10.0 MINIMUM_PCT=0.05 METRIC_ACCUMULATION_LEVEL=[ALL_READS] INCLUDE_DUPLICATES=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:57 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:58 BST 2017] picard.analysis.CollectInsertSizeMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4R.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/3.UH11_10192_B2_4R.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/3.UH11_10192_B2_4R.txt: No such file or directory
+-- Run picard CollectAlignmentSummaryMetrics 
+[Mon May 22 14:56:59 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics REFERENCE_SEQUENCE=ADAPTER_SEQUENCE=[CTGTCTCTTATA,TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG,AGATCGGAAGAGC,ACGCTCTTCCGATCT] INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4R.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/alignmentmetrics/3.UH11_10192_B2_4R.txt    MAX_INSERT_SIZE=100000 EXPECTED_PAIR_ORIENTATIONS=[FR] ADAPTER_SEQUENCE=[AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG] METRIC_ACCUMULATION_LEVEL=[ALL_READS] IS_BISULFITE_SEQUENCED=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:56:59 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:56:59 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4R.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/alignmentmetrics/3.UH11_10192_B2_4R.txt: No such file or directory
+-- Run picard QualityScoreDistribution 
+[Mon May 22 14:57:00 BST 2017] picard.analysis.QualityScoreDistribution CHART_OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/3.UH11_10192_B2_4R.qual_score_dist.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4R.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/3.UH11_10192_B2_4R.qual_score_dist.txt    ALIGNED_READS_ONLY=false PF_READS_ONLY=false INCLUDE_NO_CALLS=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:57:00 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:57:00 BST 2017] picard.analysis.QualityScoreDistribution done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4R.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+/opt/sge/default/spool/dn34/job_scripts/4004154: line 61: /data/BCI-EvoCa/marc/manu/may2017//info/qsdistribution/3.UH11_10192_B2_4R.qshistogram.txt: No such file or directory
+-- Extract names from files 
+ERROR: Option 'BAIT_INTERVALS' must be specified at least 1 times.
+
+USAGE: CollectHsMetrics [options]
+
+Documentation: http://broadinstitute.github.io/picard/command-line-overview.html#CollectHsMetrics
+
+Collects hybrid-selection (HS) metrics for a SAM or BAM file.  This tool takes a SAM/BAM file input and collects metrics that are specific for sequence datasets generated through hybrid-selection. Hybrid-selection (HS) is the most commonly used technique to capture exon-specific sequences for targeted sequencing experiments such as exome sequencing; for more information, please see the corresponding GATK Dictionary entry (http://www.broadinstitute.org/gatk/guide/article?id=6331). 
+ 
+This tool requires an aligned SAM or BAM file as well as bait and target interval files in Picard interval_list format. You should use the bait and interval files that correspond to the capture kit that was used to generate the capture libraries for sequencing, which can generally be obtained from the kit manufacturer. If the baits and target intervals are provided in BED format, you can convert them to the Picard interval_list format using Picard's BedToInterval (http://broadinstitute.github.io/picard/command-line-overview.html#BedToIntervalList) tool. 
+
+If a reference sequence is provided, this program will calculate both AT_DROPOUT and GC_DROPOUT metrics. Dropout metrics are an attempt to measure the reduced representation of reads, in regions that deviate from 50% G/C content. This reduction in the number of aligned reads is due to the increased numbers of errors associated with sequencing regions with excessive or deficient numbers of G/C bases, ultimately leading to poor mapping efficiencies and lowcoverage in the affected regions. 
+
+If you are interested in getting G/C content and mean sequence depth information for every target interval, use the PER_TARGET_COVERAGE option. 
+
+Note: Metrics labeled as percentages are actually expressed as fractions!
+  
+Usage Example:
+
+java -jar picard.jar CollectHsMetrics \
+      I=input.bam \
+      O=hs_metrics.txt \
+      R=reference_sequence.fasta \
+      BAIT_INTERVALS=bait.interval_list \
+      TARGET_INTERVALS=target.interval_list
+ 
+Please see CollectHsMetrics (http://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics) for detailed descriptions of the output metrics produced by this tool.
+
+
+Version: 2.6.0-SNAPSHOT
+
+
+Options:
+
+--help
+-h                            Displays options specific to this tool.
+
+--stdhelp
+-H                            Displays options specific to this tool AND options common to all Picard command line 
+                              tools.
+
+--version                     Displays program version.
+
+BAIT_INTERVALS=File
+BI=File                       An interval list file that contains the locations of the baits used.  Default value: 
+                              null. This option must be specified at least 1 times. 
+
+BAIT_SET_NAME=String
+N=String                      Bait set name. If not provided it is inferred from the filename of the bait intervals.  
+                              Default value: null. 
+
+MINIMUM_MAPPING_QUALITY=Integer
+MQ=Integer                    Minimum mapping quality for a read to contribute coverage.  Default value: 20. This 
+                              option can be set to 'null' to clear the default value. 
+
+MINIMUM_BASE_QUALITY=Integer
+Q=Integer                     Minimum base quality for a base to contribute coverage.  Default value: 20. This option 
+                              can be set to 'null' to clear the default value. 
+
+CLIP_OVERLAPPING_READS=BooleanTrue if we are to clip overlapping reads, false otherwise.  Default value: true. This 
+                              option can be set to 'null' to clear the default value. Possible values: {true, false} 
+
+TARGET_INTERVALS=File
+TI=File                       An interval list file that contains the locations of the targets.  Default value: null. 
+                              This option must be specified at least 1 times. 
+
+INPUT=File
+I=File                        An aligned SAM or BAM file.  Required. 
+
+OUTPUT=File
+O=File                        The output file to write the metrics to.  Required. 
+
+METRIC_ACCUMULATION_LEVEL=MetricAccumulationLevel
+LEVEL=MetricAccumulationLevel The level(s) at which to accumulate metrics.  Default value: [ALL_READS]. This option can 
+                              be set to 'null' to clear the default value. Possible values: {ALL_READS, SAMPLE, 
+                              LIBRARY, READ_GROUP} This option may be specified 0 or more times. This option can be set 
+                              to 'null' to clear the default list. 
+
+PER_TARGET_COVERAGE=File      An optional file to output per target coverage information to.  Default value: null. 
+
+PER_BASE_COVERAGE=File        An optional file to output per base coverage information to. The per-base file contains 
+                              one line per target base and can grow very large. It is not recommended for use with 
+                              large target sets.  Default value: null. 
+
+NEAR_DISTANCE=Integer         The maximum distance between a read and the nearest probe/bait/amplicon for the read to 
+                              be considered 'near probe' and included in percent selected.  Default value: 250. This 
+                              option can be set to 'null' to clear the default value. 
+
+COVERAGE_CAP=Integer
+COVMAX=Integer                Parameter to set a max coverage limit for Theoretical Sensitivity calculations. Default 
+                              is 200.  Default value: 200. This option can be set to 'null' to clear the default value. 
+
+SAMPLE_SIZE=Integer           Sample Size used for Theoretical Het Sensitivity sampling. Default is 10000.  Default 
+                              value: 10000. This option can be set to 'null' to clear the default value. 
+
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/HS/3.UH11_10192_B2_4.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/HS/3.UH11_10192_B2_4.txt: No such file or directory
+-- Run picard insertsize metrics 
+[Mon May 22 14:57:13 BST 2017] picard.analysis.CollectInsertSizeMetrics HISTOGRAM_FILE=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/3.UH11_10192_B2_4.insert_size_histogram.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/3.UH11_10192_B2_4.txt    DEVIATIONS=10.0 MINIMUM_PCT=0.05 METRIC_ACCUMULATION_LEVEL=[ALL_READS] INCLUDE_DUPLICATES=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:57:13 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:57:13 BST 2017] picard.analysis.CollectInsertSizeMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/3.UH11_10192_B2_4.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/3.UH11_10192_B2_4.txt: No such file or directory
+-- Run picard CollectAlignmentSummaryMetrics 
+[Mon May 22 14:57:14 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics REFERENCE_SEQUENCE=ADAPTER_SEQUENCE=[CTGTCTCTTATA,TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG,AGATCGGAAGAGC,ACGCTCTTCCGATCT] INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/alignmentmetrics/3.UH11_10192_B2_4.txt    MAX_INSERT_SIZE=100000 EXPECTED_PAIR_ORIENTATIONS=[FR] ADAPTER_SEQUENCE=[AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG] METRIC_ACCUMULATION_LEVEL=[ALL_READS] IS_BISULFITE_SEQUENCED=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:57:14 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:57:14 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/alignmentmetrics/3.UH11_10192_B2_4.txt: No such file or directory
+-- Run picard QualityScoreDistribution 
+[Mon May 22 14:57:15 BST 2017] picard.analysis.QualityScoreDistribution CHART_OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/3.UH11_10192_B2_4.qual_score_dist.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/3.UH11_10192_B2_4.qual_score_dist.txt    ALIGNED_READS_ONLY=false PF_READS_ONLY=false INCLUDE_NO_CALLS=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:57:15 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:57:16 BST 2017] picard.analysis.QualityScoreDistribution done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/3.UH11_10192_B2_4.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+/opt/sge/default/spool/dn34/job_scripts/4004154: line 61: /data/BCI-EvoCa/marc/manu/may2017//info/qsdistribution/3.UH11_10192_B2_4.qshistogram.txt: No such file or directory
+-- Extract names from files 
+-- Extract names from files 
+ERROR: Option 'BAIT_INTERVALS' must be specified at least 1 times.
+
+USAGE: CollectHsMetrics [options]
+
+Documentation: http://broadinstitute.github.io/picard/command-line-overview.html#CollectHsMetrics
+
+Collects hybrid-selection (HS) metrics for a SAM or BAM file.  This tool takes a SAM/BAM file input and collects metrics that are specific for sequence datasets generated through hybrid-selection. Hybrid-selection (HS) is the most commonly used technique to capture exon-specific sequences for targeted sequencing experiments such as exome sequencing; for more information, please see the corresponding GATK Dictionary entry (http://www.broadinstitute.org/gatk/guide/article?id=6331). 
+ 
+This tool requires an aligned SAM or BAM file as well as bait and target interval files in Picard interval_list format. You should use the bait and interval files that correspond to the capture kit that was used to generate the capture libraries for sequencing, which can generally be obtained from the kit manufacturer. If the baits and target intervals are provided in BED format, you can convert them to the Picard interval_list format using Picard's BedToInterval (http://broadinstitute.github.io/picard/command-line-overview.html#BedToIntervalList) tool. 
+
+If a reference sequence is provided, this program will calculate both AT_DROPOUT and GC_DROPOUT metrics. Dropout metrics are an attempt to measure the reduced representation of reads, in regions that deviate from 50% G/C content. This reduction in the number of aligned reads is due to the increased numbers of errors associated with sequencing regions with excessive or deficient numbers of G/C bases, ultimately leading to poor mapping efficiencies and lowcoverage in the affected regions. 
+
+If you are interested in getting G/C content and mean sequence depth information for every target interval, use the PER_TARGET_COVERAGE option. 
+
+Note: Metrics labeled as percentages are actually expressed as fractions!
+  
+Usage Example:
+
+java -jar picard.jar CollectHsMetrics \
+      I=input.bam \
+      O=hs_metrics.txt \
+      R=reference_sequence.fasta \
+      BAIT_INTERVALS=bait.interval_list \
+      TARGET_INTERVALS=target.interval_list
+ 
+Please see CollectHsMetrics (http://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics) for detailed descriptions of the output metrics produced by this tool.
+
+
+Version: 2.6.0-SNAPSHOT
+
+
+Options:
+
+--help
+-h                            Displays options specific to this tool.
+
+--stdhelp
+-H                            Displays options specific to this tool AND options common to all Picard command line 
+                              tools.
+
+--version                     Displays program version.
+
+BAIT_INTERVALS=File
+BI=File                       An interval list file that contains the locations of the baits used.  Default value: 
+                              null. This option must be specified at least 1 times. 
+
+BAIT_SET_NAME=String
+N=String                      Bait set name. If not provided it is inferred from the filename of the bait intervals.  
+                              Default value: null. 
+
+MINIMUM_MAPPING_QUALITY=Integer
+MQ=Integer                    Minimum mapping quality for a read to contribute coverage.  Default value: 20. This 
+                              option can be set to 'null' to clear the default value. 
+
+MINIMUM_BASE_QUALITY=Integer
+Q=Integer                     Minimum base quality for a base to contribute coverage.  Default value: 20. This option 
+                              can be set to 'null' to clear the default value. 
+
+CLIP_OVERLAPPING_READS=BooleanTrue if we are to clip overlapping reads, false otherwise.  Default value: true. This 
+                              option can be set to 'null' to clear the default value. Possible values: {true, false} 
+
+TARGET_INTERVALS=File
+TI=File                       An interval list file that contains the locations of the targets.  Default value: null. 
+                              This option must be specified at least 1 times. 
+
+INPUT=File
+I=File                        An aligned SAM or BAM file.  Required. 
+
+OUTPUT=File
+O=File                        The output file to write the metrics to.  Required. 
+
+METRIC_ACCUMULATION_LEVEL=MetricAccumulationLevel
+LEVEL=MetricAccumulationLevel The level(s) at which to accumulate metrics.  Default value: [ALL_READS]. This option can 
+                              be set to 'null' to clear the default value. Possible values: {ALL_READS, SAMPLE, 
+                              LIBRARY, READ_GROUP} This option may be specified 0 or more times. This option can be set 
+                              to 'null' to clear the default list. 
+
+PER_TARGET_COVERAGE=File      An optional file to output per target coverage information to.  Default value: null. 
+
+PER_BASE_COVERAGE=File        An optional file to output per base coverage information to. The per-base file contains 
+                              one line per target base and can grow very large. It is not recommended for use with 
+                              large target sets.  Default value: null. 
+
+NEAR_DISTANCE=Integer         The maximum distance between a read and the nearest probe/bait/amplicon for the read to 
+                              be considered 'near probe' and included in percent selected.  Default value: 250. This 
+                              option can be set to 'null' to clear the default value. 
+
+COVERAGE_CAP=Integer
+COVMAX=Integer                Parameter to set a max coverage limit for Theoretical Sensitivity calculations. Default 
+                              is 200.  Default value: 200. This option can be set to 'null' to clear the default value. 
+
+SAMPLE_SIZE=Integer           Sample Size used for Theoretical Het Sensitivity sampling. Default is 10000.  Default 
+                              value: 10000. This option can be set to 'null' to clear the default value. 
+
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/HS/4.UH14_14119C_6.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/HS/4.UH14_14119C_6.txt: No such file or directory
+-- Run picard insertsize metrics 
+[Mon May 22 14:57:28 BST 2017] picard.analysis.CollectInsertSizeMetrics HISTOGRAM_FILE=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/4.UH14_14119C_6.insert_size_histogram.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/4.UH14_14119C_6.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/4.UH14_14119C_6.txt    DEVIATIONS=10.0 MINIMUM_PCT=0.05 METRIC_ACCUMULATION_LEVEL=[ALL_READS] INCLUDE_DUPLICATES=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:57:28 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:57:28 BST 2017] picard.analysis.CollectInsertSizeMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/4.UH14_14119C_6.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/4.UH14_14119C_6.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/insertmetrics/4.UH14_14119C_6.txt: No such file or directory
+-- Run picard CollectAlignmentSummaryMetrics 
+[Mon May 22 14:57:29 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics REFERENCE_SEQUENCE=ADAPTER_SEQUENCE=[CTGTCTCTTATA,TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG,AGATCGGAAGAGC,ACGCTCTTCCGATCT] INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/4.UH14_14119C_6.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/alignmentmetrics/4.UH14_14119C_6.txt    MAX_INSERT_SIZE=100000 EXPECTED_PAIR_ORIENTATIONS=[FR] ADAPTER_SEQUENCE=[AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG] METRIC_ACCUMULATION_LEVEL=[ALL_READS] IS_BISULFITE_SEQUENCED=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:57:29 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:57:29 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/4.UH14_14119C_6.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/alignmentmetrics/4.UH14_14119C_6.txt: No such file or directory
+-- Run picard QualityScoreDistribution 
+ERROR: Option 'BAIT_INTERVALS' must be specified at least 1 times.
+
+USAGE: CollectHsMetrics [options]
+
+Documentation: http://broadinstitute.github.io/picard/command-line-overview.html#CollectHsMetrics
+
+Collects hybrid-selection (HS) metrics for a SAM or BAM file.  This tool takes a SAM/BAM file input and collects metrics that are specific for sequence datasets generated through hybrid-selection. Hybrid-selection (HS) is the most commonly used technique to capture exon-specific sequences for targeted sequencing experiments such as exome sequencing; for more information, please see the corresponding GATK Dictionary entry (http://www.broadinstitute.org/gatk/guide/article?id=6331). 
+ 
+This tool requires an aligned SAM or BAM file as well as bait and target interval files in Picard interval_list format. You should use the bait and interval files that correspond to the capture kit that was used to generate the capture libraries for sequencing, which can generally be obtained from the kit manufacturer. If the baits and target intervals are provided in BED format, you can convert them to the Picard interval_list format using Picard's BedToInterval (http://broadinstitute.github.io/picard/command-line-overview.html#BedToIntervalList) tool. 
+
+If a reference sequence is provided, this program will calculate both AT_DROPOUT and GC_DROPOUT metrics. Dropout metrics are an attempt to measure the reduced representation of reads, in regions that deviate from 50% G/C content. This reduction in the number of aligned reads is due to the increased numbers of errors associated with sequencing regions with excessive or deficient numbers of G/C bases, ultimately leading to poor mapping efficiencies and lowcoverage in the affected regions. 
+
+If you are interested in getting G/C content and mean sequence depth information for every target interval, use the PER_TARGET_COVERAGE option. 
+
+Note: Metrics labeled as percentages are actually expressed as fractions!
+  
+Usage Example:
+
+java -jar picard.jar CollectHsMetrics \
+      I=input.bam \
+      O=hs_metrics.txt \
+      R=reference_sequence.fasta \
+      BAIT_INTERVALS=bait.interval_list \
+      TARGET_INTERVALS=target.interval_list
+ 
+Please see CollectHsMetrics (http://broadinstitute.github.io/picard/picard-metric-definitions.html#HsMetrics) for detailed descriptions of the output metrics produced by this tool.
+
+
+Version: 2.6.0-SNAPSHOT
+
+
+Options:
+
+--help
+-h                            Displays options specific to this tool.
+
+--stdhelp
+-H                            Displays options specific to this tool AND options common to all Picard command line 
+                              tools.
+
+--version                     Displays program version.
+
+BAIT_INTERVALS=File
+BI=File                       An interval list file that contains the locations of the baits used.  Default value: 
+                              null. This option must be specified at least 1 times. 
+
+BAIT_SET_NAME=String
+N=String                      Bait set name. If not provided it is inferred from the filename of the bait intervals.  
+                              Default value: null. 
+
+MINIMUM_MAPPING_QUALITY=Integer
+MQ=Integer                    Minimum mapping quality for a read to contribute coverage.  Default value: 20. This 
+                              option can be set to 'null' to clear the default value. 
+
+MINIMUM_BASE_QUALITY=Integer
+Q=Integer                     Minimum base quality for a base to contribute coverage.  Default value: 20. This option 
+                              can be set to 'null' to clear the default value. 
+
+CLIP_OVERLAPPING_READS=BooleanTrue if we are to clip overlapping reads, false otherwise.  Default value: true. This 
+                              option can be set to 'null' to clear the default value. Possible values: {true, false} 
+
+TARGET_INTERVALS=File
+TI=File                       An interval list file that contains the locations of the targets.  Default value: null. 
+                              This option must be specified at least 1 times. 
+
+INPUT=File
+I=File                        An aligned SAM or BAM file.  Required. 
+
+OUTPUT=File
+O=File                        The output file to write the metrics to.  Required. 
+
+METRIC_ACCUMULATION_LEVEL=MetricAccumulationLevel
+LEVEL=MetricAccumulationLevel The level(s) at which to accumulate metrics.  Default value: [ALL_READS]. This option can 
+                              be set to 'null' to clear the default value. Possible values: {ALL_READS, SAMPLE, 
+                              LIBRARY, READ_GROUP} This option may be specified 0 or more times. This option can be set 
+                              to 'null' to clear the default list. 
+
+PER_TARGET_COVERAGE=File      An optional file to output per target coverage information to.  Default value: null. 
+
+PER_BASE_COVERAGE=File        An optional file to output per base coverage information to. The per-base file contains 
+                              one line per target base and can grow very large. It is not recommended for use with 
+                              large target sets.  Default value: null. 
+
+NEAR_DISTANCE=Integer         The maximum distance between a read and the nearest probe/bait/amplicon for the read to 
+                              be considered 'near probe' and included in percent selected.  Default value: 250. This 
+                              option can be set to 'null' to clear the default value. 
+
+COVERAGE_CAP=Integer
+COVMAX=Integer                Parameter to set a max coverage limit for Theoretical Sensitivity calculations. Default 
+                              is 200.  Default value: 200. This option can be set to 'null' to clear the default value. 
+
+SAMPLE_SIZE=Integer           Sample Size used for Theoretical Het Sensitivity sampling. Default is 10000.  Default 
+                              value: 10000. This option can be set to 'null' to clear the default value. 
+
+grep: /data/BCI-EvoCa/marc/manu/may2017//info/HS/3.UH11_10192_B2_5.txt: No such file or directory
+sed: can't read /data/BCI-EvoCa/marc/manu/may2017//info/HS/3.UH11_10192_B2_5.txt: No such file or directory
+-- Run picard insertsize metrics 
+[Mon May 22 14:57:30 BST 2017] picard.analysis.QualityScoreDistribution CHART_OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/4.UH14_14119C_6.qual_score_dist.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/4.UH14_14119C_6.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/4.UH14_14119C_6.qual_score_dist.txt    ALIGNED_READS_ONLY=false PF_READS_ONLY=false INCLUDE_NO_CALLS=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Mon May 22 14:57:30 BST 2017] Executing as mpx155@dn34 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Mon May 22 14:57:30 BST 2017] picard.analysis.QualityScoreDistribution done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=402653184
+To get help, see http://broadinstitute.github.io/picard/index.html#GettingHelp
+Exception in thread "main" htsjdk.samtools.SAMException: Cannot read non-existent file: /data/BCI-EvoCa/marc/manu/may2017/finalbams/4.UH14_14119C_6.bam
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:338)
+	at htsjdk.samtools.util.IOUtil.assertFileIsReadable(IOUtil.java:325)
+	at picard.analysis.SinglePassSamProgram.makeItSo(SinglePassSamProgram.java:88)
+	at picard.analysis.SinglePassSamProgram.doWork(SinglePassSamProgram.java:77)
+	at picard.cmdline.CommandLineProgram.instanceMain(CommandLineProgram.java:208)
+	at picard.cmdline.PicardCommandLine.instanceMain(PicardCommandLine.java:95)
+	at picard.cmdline.PicardCommandLine.main(PicardCommandLine.java:105)
+/opt/sge/default/spool/dn34/job_scripts/4004154: line 61: /data/BCI-EvoCa/marc/manu/may2017//info/qsdistribution/4.UH14_14119C_6.qshistogram.txt: No such file or directory
