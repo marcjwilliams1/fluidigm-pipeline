@@ -1,0 +1,41 @@
+-- Extract names from files --------------------
+-- run fastqc --------------------
+Analysis complete for JE24-B5_S15_L001_R1_001.fastq.gz
+Analysis complete for JE24-B5_S15_L001_R2_001.fastq.gz
+-- map with BWA and pipe to samtools to convert to bam --------------------
+-- sort bam with picard --------------------
+-- remove unsorted bam --------------------
+-- run bamqc --------------------
+Started analysis of 5.B5.bam
+Approx 5% complete for 5.B5.bam
+Approx 10% complete for 5.B5.bam
+Approx 15% complete for 5.B5.bam
+Approx 20% complete for 5.B5.bam
+Approx 25% complete for 5.B5.bam
+Approx 30% complete for 5.B5.bam
+Approx 35% complete for 5.B5.bam
+Approx 40% complete for 5.B5.bam
+Approx 45% complete for 5.B5.bam
+Approx 50% complete for 5.B5.bam
+Approx 55% complete for 5.B5.bam
+Approx 60% complete for 5.B5.bam
+Approx 65% complete for 5.B5.bam
+Approx 70% complete for 5.B5.bam
+Approx 75% complete for 5.B5.bam
+Approx 80% complete for 5.B5.bam
+Approx 85% complete for 5.B5.bam
+Approx 90% complete for 5.B5.bam
+Approx 95% complete for 5.B5.bam
+Approx 100% complete for 5.B5.bam
+Analysis complete for 5.B5.bam
+-- run GATK coverage --------------------
+------------------------------------------------------------------------------------------
+Done. There were 6 WARN messages, the first 6 are repeated below.
+WARN  16:30:08,097 Utils - ********************************************************************** 
+WARN  16:30:08,097 Utils - * WARNING: 
+WARN  16:30:08,098 Utils - *  
+WARN  16:30:08,098 Utils - * RefSeq file contains transcripts with zero coding length. Such 
+WARN  16:30:08,098 Utils - * transcripts will be ignored (this warning is printed only once) 
+WARN  16:30:08,099 Utils - ********************************************************************** 
+------------------------------------------------------------------------------------------
+-- finished --------------------

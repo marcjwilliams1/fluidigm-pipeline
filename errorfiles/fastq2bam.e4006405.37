@@ -1,0 +1,174 @@
+-- Extract names from files --------------------
+-- run fastqc --------------------
+Started analysis of JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 5% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 10% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 15% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 20% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 25% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 30% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 35% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 40% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 45% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 50% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 55% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 60% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 65% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 70% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 75% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 80% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 85% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 90% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Approx 95% complete for JE75-PB_S35_L001_R1_001.fastq.gz
+Started analysis of JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 5% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 10% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 15% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 20% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 25% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 30% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 35% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 40% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 45% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 50% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 55% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 60% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 65% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 70% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 75% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 80% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 85% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 90% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+Approx 95% complete for JE75-PB_S35_L001_R2_001.fastq.gz
+-- map with BWA and pipe to samtools to convert to bam --------------------
+[M::main_mem] read 66226 sequences (10000126 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 31478, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (186, 191, 196)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (166, 216)
+[M::mem_pestat] mean and std.dev: (190.66, 6.34)
+[M::mem_pestat] low and high boundaries for proper pairs: (156, 226)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 66226 reads in 7.980 CPU sec, 7.993 real sec
+[samopen] SAM header is present: 93 sequences.
+[M::main_mem] read 66226 sequences (10000126 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 31443, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (186, 191, 196)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (166, 216)
+[M::mem_pestat] mean and std.dev: (190.67, 6.33)
+[M::mem_pestat] low and high boundaries for proper pairs: (156, 226)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 66226 reads in 8.072 CPU sec, 8.083 real sec
+[M::main_mem] read 66226 sequences (10000126 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 31454, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (186, 191, 196)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (166, 216)
+[M::mem_pestat] mean and std.dev: (190.70, 6.35)
+[M::mem_pestat] low and high boundaries for proper pairs: (156, 226)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 66226 reads in 7.982 CPU sec, 7.989 real sec
+[M::main_mem] read 66226 sequences (10000126 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 31454, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (186, 191, 196)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (166, 216)
+[M::mem_pestat] mean and std.dev: (190.62, 6.36)
+[M::mem_pestat] low and high boundaries for proper pairs: (156, 226)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 66226 reads in 8.110 CPU sec, 8.117 real sec
+[M::main_mem] read 66226 sequences (10000126 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 31294, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (186, 191, 196)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (166, 216)
+[M::mem_pestat] mean and std.dev: (190.73, 6.28)
+[M::mem_pestat] low and high boundaries for proper pairs: (156, 226)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 66226 reads in 8.498 CPU sec, 8.507 real sec
+[M::main_mem] read 66226 sequences (10000126 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 31254, 1, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (186, 191, 196)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (166, 216)
+[M::mem_pestat] mean and std.dev: (190.73, 6.27)
+[M::mem_pestat] low and high boundaries for proper pairs: (156, 226)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 66226 reads in 8.565 CPU sec, 8.593 real sec
+[M::main_mem] read 43862 sequences (6623162 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 20766, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (186, 191, 196)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (166, 216)
+[M::mem_pestat] mean and std.dev: (190.66, 6.36)
+[M::mem_pestat] low and high boundaries for proper pairs: (156, 226)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 43862 reads in 5.477 CPU sec, 5.481 real sec
+[main] Version: 0.7.8-r455
+[main] CMD: bwa mem -M -R @RG\tID:75.PB_NORMAL\tLB:75.PB_NORMAL\tSM:75.PB_NORMAL\tPL:ILLUMINA /data/BCI-EvoCa/marc/refs/hg19/ucsc.hg19.fasta /data/BCI-EvoCa/marc/manu/may2017/fastq/JE75-PB_S35_L001_R1_001.fastq.gz /data/BCI-EvoCa/marc/manu/may2017/fastq/JE75-PB_S35_L001_R2_001.fastq.gz
+[main] Real time: 120.946 sec; CPU: 60.839 sec
+-- sort bam with picard --------------------
+[Thu May 25 18:48:58 BST 2017] picard.sam.SortSam INPUT=/data/BCI-EvoCa/marc/manu/may2017/processingbams/75.PB_NORMAL_unsort.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/processingbams/75.PB_NORMAL.bam SORT_ORDER=coordinate CREATE_INDEX=true    VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Thu May 25 18:48:58 BST 2017] Executing as mpx155@dn101 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+INFO	2017-05-25 18:49:31	SortSam	Finished reading inputs, merging and writing to output now.
+[Thu May 25 18:50:08 BST 2017] picard.sam.SortSam done. Elapsed time: 1.17 minutes.
+Runtime.totalMemory()=821035008
+-- remove unsorted bam --------------------
+-- run bamqc --------------------
+-- run GATK coverage --------------------
+INFO  18:50:31,066 HelpFormatter - --------------------------------------------------------------------------------- 
+INFO  18:50:31,070 HelpFormatter - The Genome Analysis Toolkit (GATK) v3.6-0-g89b7209, Compiled 2016/06/01 22:27:29 
+INFO  18:50:31,074 HelpFormatter - Copyright (c) 2010-2016 The Broad Institute 
+INFO  18:50:31,074 HelpFormatter - For support and documentation go to https://www.broadinstitute.org/gatk 
+INFO  18:50:31,074 HelpFormatter - [Thu May 25 18:50:31 BST 2017] Executing on Linux 2.6.32-642.6.2.el6.x86_64 amd64 
+INFO  18:50:31,075 HelpFormatter - Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12 JdkDeflater 
+INFO  18:50:31,079 HelpFormatter - Program Args: -T DepthOfCoverage -R /data/BCI-EvoCa/marc/refs/hg19/ucsc.hg19.fasta -L /data/BCI-EvoCa/marc/refs/fluidigm/barrettstargetregions.bed -I /data/BCI-EvoCa/marc/manu/may2017/finalbams/75.PB_NORMAL.bam -geneList:REFSEQ /data/BCI-EvoCa/marc/refs/fluidigm/barrettsfluidigmrefseq2.txt --start 1 --stop 100000 --nBins 500 --omitDepthOutputAtEachBase -ct 100 -o /data/BCI-EvoCa/marc/manu/may2017/coverage/75.PB_NORMAL.coverage 
+INFO  18:50:31,085 HelpFormatter - Executing as mpx155@dn101 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12. 
+INFO  18:50:31,086 HelpFormatter - Date/Time: 2017/05/25 18:50:31 
+INFO  18:50:31,087 HelpFormatter - --------------------------------------------------------------------------------- 
+INFO  18:50:31,087 HelpFormatter - --------------------------------------------------------------------------------- 
+INFO  18:50:31,120 GenomeAnalysisEngine - Strictness is SILENT 
+INFO  18:50:31,467 GenomeAnalysisEngine - Downsampling Settings: No downsampling 
+INFO  18:50:31,476 SAMDataSource$SAMReaders - Initializing SAMRecords in serial 
+INFO  18:50:31,561 SAMDataSource$SAMReaders - Done initializing BAM readers: total time 0.08 
+INFO  18:50:31,644 IntervalUtils - Processing 27128 bp from intervals 
+INFO  18:50:31,864 GenomeAnalysisEngine - Preparing for traversal over 1 BAM files 
+INFO  18:50:31,911 GenomeAnalysisEngine - Done preparing for traversal 
+INFO  18:50:31,912 ProgressMeter - [INITIALIZATION COMPLETE; STARTING PROCESSING] 
+INFO  18:50:31,912 ProgressMeter -                 | processed |    time |    per 1M |           |   total | remaining 
+INFO  18:50:31,913 ProgressMeter -        Location |     sites | elapsed |     sites | completed | runtime |   runtime 
+INFO  18:50:31,915 DepthOfCoverage - Per-Locus Depth of Coverage output was omitted 
+INFO  18:51:01,973 ProgressMeter -  chr11:55321925     19997.0    30.0 s      25.1 m       48.4%    61.0 s      31.0 s 
+WARN  18:51:22,593 Utils - ********************************************************************** 
+WARN  18:51:22,593 Utils - * WARNING: 
+WARN  18:51:22,593 Utils - *  
+WARN  18:51:22,594 Utils - * RefSeq file contains transcripts with zero coding length. Such 
+WARN  18:51:22,594 Utils - * transcripts will be ignored (this warning is printed only once) 
+WARN  18:51:22,594 Utils - ********************************************************************** 
+INFO  18:51:22,934 DepthOfCoverage - Printing summary info 
+INFO  18:51:22,979 DepthOfCoverage - Printing locus summary 
+INFO  18:51:23,184 ProgressMeter -            done     50255.0    51.0 s      17.0 m       99.6%    51.0 s       0.0 s 
+INFO  18:51:23,184 ProgressMeter - Total runtime 51.27 secs, 0.85 min, 0.01 hours 
+INFO  18:51:23,188 MicroScheduler - 626 reads were filtered out during the traversal out of approximately 428659 total reads (0.15%) 
+INFO  18:51:23,188 MicroScheduler -   -> 0 reads (0.00% of total) failing BadCigarFilter 
+INFO  18:51:23,189 MicroScheduler -   -> 0 reads (0.00% of total) failing DuplicateReadFilter 
+INFO  18:51:23,189 MicroScheduler -   -> 0 reads (0.00% of total) failing FailsVendorQualityCheckFilter 
+INFO  18:51:23,189 MicroScheduler -   -> 0 reads (0.00% of total) failing MalformedReadFilter 
+INFO  18:51:23,189 MicroScheduler -   -> 28 reads (0.01% of total) failing NotPrimaryAlignmentFilter 
+INFO  18:51:23,189 MicroScheduler -   -> 598 reads (0.14% of total) failing UnmappedReadFilter 
+-- finished --------------------

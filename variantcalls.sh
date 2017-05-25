@@ -8,6 +8,6 @@
 directory=$1
 targetregions=$2
 
-Rscript deepSNV.R ${directory} ${targetregions}
+Rscript deepsnv.R ${directory} ${targetregions}
 
 ./filterdeepsnv.sh ${directory}

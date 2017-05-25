@@ -11,4 +11,4 @@ chmod 755 plot_coverage.sh
 Rscript plot_coverage.sh $results_dir
 
 chmod 755 analysepicardmetrics.sh
-Rscript analysepicardmetrics.R $results_dir $name
+Rscript analysepicardmetrics.sh $results_dir $name

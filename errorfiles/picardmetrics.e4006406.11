@@ -1,0 +1,40 @@
+-- Extract names from files 
+[Thu May 25 19:24:08 BST 2017] picard.analysis.directed.CollectHsMetrics BAIT_INTERVALS=[/data/BCI-EvoCa/marc/refs/fluidigm/barrettstargetregions.interval.list] TARGET_INTERVALS=[/data/BCI-EvoCa/marc/refs/fluidigm/barrettstargetregions.interval.list] INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/5.SQUAMOU_NORMAL.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/HS/5.SQUAMOU_NORMAL.txt PER_TARGET_COVERAGE=/data/BCI-EvoCa/marc/manu/may2017/coveragepicard/5.SQUAMOU_NORMAL.coverage.txt REFERENCE_SEQUENCE=/data/BCI-EvoCa/marc/refs/hg19/ucsc.hg19.fasta    MINIMUM_MAPPING_QUALITY=20 MINIMUM_BASE_QUALITY=20 CLIP_OVERLAPPING_READS=true METRIC_ACCUMULATION_LEVEL=[ALL_READS] NEAR_DISTANCE=250 COVERAGE_CAP=200 SAMPLE_SIZE=10000 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Thu May 25 19:24:08 BST 2017] Executing as mpx155@dn138 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+INFO	2017-05-25 19:24:37	TheoreticalSensitivity	Creating Roulette Wheel
+INFO	2017-05-25 19:24:37	TheoreticalSensitivity	Calculating quality sums from quality sampler
+INFO	2017-05-25 19:24:37	TheoreticalSensitivity	0 sampling iterations completed
+INFO	2017-05-25 19:24:38	TheoreticalSensitivity	1000 sampling iterations completed
+INFO	2017-05-25 19:24:40	TheoreticalSensitivity	2000 sampling iterations completed
+INFO	2017-05-25 19:24:41	TheoreticalSensitivity	3000 sampling iterations completed
+INFO	2017-05-25 19:24:43	TheoreticalSensitivity	4000 sampling iterations completed
+INFO	2017-05-25 19:24:44	TheoreticalSensitivity	5000 sampling iterations completed
+INFO	2017-05-25 19:24:46	TheoreticalSensitivity	6000 sampling iterations completed
+INFO	2017-05-25 19:24:48	TheoreticalSensitivity	7000 sampling iterations completed
+INFO	2017-05-25 19:24:49	TheoreticalSensitivity	8000 sampling iterations completed
+INFO	2017-05-25 19:24:51	TheoreticalSensitivity	9000 sampling iterations completed
+INFO	2017-05-25 19:24:52	TheoreticalSensitivity	Calculating theoretical het sensitivity
+INFO	2017-05-25 19:24:53	TargetMetricsCollector	Calculating GC metrics
+[Thu May 25 19:24:53 BST 2017] picard.analysis.directed.CollectHsMetrics done. Elapsed time: 0.75 minutes.
+Runtime.totalMemory()=432537600
+-- Run picard insertsize metrics 
+[Thu May 25 19:24:55 BST 2017] picard.analysis.CollectInsertSizeMetrics HISTOGRAM_FILE=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/5.SQUAMOU_NORMAL.insert_size_histogram.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/5.SQUAMOU_NORMAL.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/5.SQUAMOU_NORMAL.txt    DEVIATIONS=10.0 MINIMUM_PCT=0.05 METRIC_ACCUMULATION_LEVEL=[ALL_READS] INCLUDE_DUPLICATES=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Thu May 25 19:24:55 BST 2017] Executing as mpx155@dn138 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+INFO	2017-05-25 19:25:28	RExecutor	Executing R script via command: Rscript /tmp/mpx155/script2828518164160065937.R /data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/5.SQUAMOU_NORMAL.txt /data/BCI-EvoCa/marc/manu/may2017/info/insertmetrics/5.SQUAMOU_NORMAL.insert_size_histogram.pdf 5.SQUAMOU_NORMAL.bam
+INFO	2017-05-25 19:25:31	ProcessExecutor	null device 
+INFO	2017-05-25 19:25:31	ProcessExecutor	          1 
+[Thu May 25 19:25:31 BST 2017] picard.analysis.CollectInsertSizeMetrics done. Elapsed time: 0.60 minutes.
+Runtime.totalMemory()=432537600
+-- Run picard CollectAlignmentSummaryMetrics 
+[Thu May 25 19:25:33 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics ADAPTER_SEQUENCE=[AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG, AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT, AGATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG, [CTGTCTCTTATA,TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG,AGATCGGAAGAGC,ACGCTCTTCCGATCT]] REFERENCE_SEQUENCE=/data/BCI-EvoCa/marc/refs/hg19/ucsc.hg19.fasta INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/5.SQUAMOU_NORMAL.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/alignmentmetrics/5.SQUAMOU_NORMAL.txt    MAX_INSERT_SIZE=100000 EXPECTED_PAIR_ORIENTATIONS=[FR] METRIC_ACCUMULATION_LEVEL=[ALL_READS] IS_BISULFITE_SEQUENCED=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Thu May 25 19:25:33 BST 2017] Executing as mpx155@dn138 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+[Thu May 25 19:26:31 BST 2017] picard.analysis.CollectAlignmentSummaryMetrics done. Elapsed time: 0.98 minutes.
+Runtime.totalMemory()=554172416
+-- Run picard QualityScoreDistribution 
+[Thu May 25 19:26:33 BST 2017] picard.analysis.QualityScoreDistribution CHART_OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/5.SQUAMOU_NORMAL.qual_score_dist.pdf INPUT=/data/BCI-EvoCa/marc/manu/may2017/finalbams/5.SQUAMOU_NORMAL.bam OUTPUT=/data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/5.SQUAMOU_NORMAL.qual_score_dist.txt    ALIGNED_READS_ONLY=false PF_READS_ONLY=false INCLUDE_NO_CALLS=false ASSUME_SORTED=true STOP_AFTER=0 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+[Thu May 25 19:26:33 BST 2017] Executing as mpx155@dn138 on Linux 2.6.32-642.6.2.el6.x86_64 amd64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_11-b12; Picard version: 2.6.0-SNAPSHOT
+INFO	2017-05-25 19:26:38	RExecutor	Executing R script via command: Rscript /tmp/mpx155/script3275521683273511970.R /data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/5.SQUAMOU_NORMAL.qual_score_dist.txt /data/BCI-EvoCa/marc/manu/may2017/info/qsdistribution/5.SQUAMOU_NORMAL.qual_score_dist.pdf 5.SQUAMOU_NORMAL.bam 5.SQUAMOU_NORMAL
+INFO	2017-05-25 19:26:39	ProcessExecutor	null device 
+INFO	2017-05-25 19:26:39	ProcessExecutor	          1 
+[Thu May 25 19:26:39 BST 2017] picard.analysis.QualityScoreDistribution done. Elapsed time: 0.10 minutes.
+Runtime.totalMemory()=469237760
