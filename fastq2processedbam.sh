@@ -36,22 +36,22 @@ readgroup="@RG\tID:${patient}.${samplename}\tLB:${patient}.${samplename}\tSM:${p
 ##############################################################################
 msg="run fastqc"; echo "-- $msg $longLine"; >&2 echo "-- $msg $longLine"
 #perform fastqc quality control
- /data/home/mpx155/bin/FastQC/fastqc ${read1} ${read2} --outdir=${results_dir}/fastQC/
+ /data/home/mpx155/bin/FastQC/fastqc ${results_dir}/fastq/${read1} ${results_dir}/fastq/${read2} --outdir=${results_dir}/fastQC/
 
 ##############################################################################
 
 #add read group headers and align using bwa mem, pipe to samtools to convert to bam
  msg="map with BWA and pipe to samtools to convert to bam"; echo "-- $msg $longLine"; >&2 echo "-- $msg $longLine"
  bwa mem -M -R ${readgroup} /data/BCI-EvoCa/marc/refs/hg19/ucsc.hg19.fasta \
- ${read1} \
- ${read2} | \
+ ${results_dir}/fastq/${read1} \
+ ${results_dir}/fastq/${read2} | \
  samtools view -S -b - > ${results_dir}/processingbams/${patient}.${samplename}_unsort.bam
 
 ##############################################################################
 
 #sort bam file an index using picard
  msg="sort bam with picard"; echo "-- $msg $longLine"; >&2 echo "-- $msg $longLine"
- java -Xmx4G -jar /data/home/mpx155/bin/picard.jar SortSam INPUT=${results_dir}/processingbams/${patient}.${samplename}_unsort.bam \
+ java -Xmx2G -jar /data/home/mpx155/bin/picard.jar SortSam INPUT=${results_dir}/processingbams/${patient}.${samplename}_unsort.bam \
  OUTPUT=${results_dir}/processingbams/${patient}.${samplename}.bam \
  SORT_ORDER=coordinate CREATE_INDEX=true
 
@@ -81,7 +81,7 @@ java -jar -Xmx2G $GATK -T DepthOfCoverage \
 -R /data/BCI-EvoCa/marc/refs/hg19/ucsc.hg19.fasta  \
 -L ${regionsfile} \
 -I ${results_dir}/finalbams/${patient}.${samplename}.bam \
--geneList:REFSEQ /data/BCI-EvoCa/marc/refs/fluidigm/barrettsfluidigmrefseq.txt \
+-geneList:REFSEQ /data/BCI-EvoCa/marc/refs/fluidigm/barrettsfluidigmrefseq2.txt \
 --start 1 \
 --stop 100000 \
 --nBins 500 \
