@@ -23,6 +23,7 @@ filelist=$1
 msg="Extract names from files"; echo "-- $msg $longLine"; >&2 echo "-- $msg $longLine"
 regionsfile=$3
 results_dir=$2
+refseq=$4
 
 
 read1=$(awk -v var="$SGE_TASK_ID" 'NR ==var { OFS="\t";print $1}' $filelist)
@@ -51,7 +52,7 @@ msg="run fastqc"; echo "-- $msg $longLine"; >&2 echo "-- $msg $longLine"
 
 #sort bam file an index using picard
  msg="sort bam with picard"; echo "-- $msg $longLine"; >&2 echo "-- $msg $longLine"
- java -Xmx2G -jar /data/home/mpx155/bin/picard.jar SortSam INPUT=${results_dir}/processingbams/${patient}.${samplename}_unsort.bam \
+ java -Xmx2G -jar $PICARD SortSam INPUT=${results_dir}/processingbams/${patient}.${samplename}_unsort.bam \
  OUTPUT=${results_dir}/processingbams/${patient}.${samplename}.bam \
  SORT_ORDER=coordinate CREATE_INDEX=true
 
@@ -81,7 +82,7 @@ java -jar -Xmx2G $GATK -T DepthOfCoverage \
 -R /data/BCI-EvoCa/marc/refs/hg19/ucsc.hg19.fasta  \
 -L ${regionsfile} \
 -I ${results_dir}/finalbams/${patient}.${samplename}.bam \
--geneList:REFSEQ /data/BCI-EvoCa/marc/refs/fluidigm/barrettsfluidigmrefseq2.txt \
+-geneList:REFSEQ $refseq \
 --start 1 \
 --stop 100000 \
 --nBins 500 \

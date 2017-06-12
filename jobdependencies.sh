@@ -1,12 +1,13 @@
 #!/bin/sh
 
-results_dir=/data/BCI-EvoCa/marc/manu/may2017
-target=/data/BCI-EvoCa/marc/refs/fluidigm/barrettstargetregions.bed
+results_dir=/data/BCI-EvoCa/marc/nikolina/run3
+target=/data/BCI-EvoCa/marc/refs/fluidigm/targetregions.bed
 baits=$target
 filelist=fastqfiles.txt
 
-targetpicard=/data/BCI-EvoCa/marc/refs/fluidigm/barrettstargetregions.interval.list
+targetpicard=/data/BCI-EvoCa/marc/refs/fluidigm/targetregions.interval.list
 baitspicard=$targetpicard
+refseq=/data/BCI-EvoCa/marc/refs/fluidigm/fluidigmrefseq.txt
 
 mkdir errorfiles
 mkdir outfiles
@@ -24,11 +25,11 @@ mkdir -p ${results_dir}/info/qsdistribution/
 mkdir -p ${results_dir}/finalresults/
 
 numsamples=42
-name="manumay2017"
+name="nikolinarun3june2017"
 
-qsub -t 6-${numsamples} -l h_rt=1:0:0 -l h_vmem=8G -N fastq2bam fastq2processedbam.sh $filelist $results_dir $target
+qsub -t 1-${numsamples} -l h_rt=1:0:0 -l h_vmem=8G -N fastq2bam fastq2processedbam.sh $filelist $results_dir $target $refseq
 
-qsub -t 6-${numsamples} -hold_jid fastq2bam -N picardmetrics -l h_rt=1:0:0 -l h_vmem=4G picardmetrics.sh $filelist $results_dir $targetpicard $baitspicard
+qsub -t 1-${numsamples} -hold_jid fastq2bam -N picardmetrics -l h_rt=1:0:0 -l h_vmem=4G picardmetrics.sh $filelist $results_dir $targetpicard $baitspicard
 
 qsub -hold_jid fastq2bam -N variantcalls -l h_vmem=8G -l h_rt=10:0:0 variantcalls.sh $results_dir $target
 
